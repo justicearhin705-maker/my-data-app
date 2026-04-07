@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DataHubJust GH - Cheapest Data Bundles in Ghana</title>
+    <title>DataHubJust GH - Cheapest Data Bundles</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -18,49 +18,41 @@
             text-align: center;
             color: white;
             margin-bottom: 30px;
-            padding: 20px;
-            background: rgba(0,0,0,0.2);
+            padding: 30px;
+            background: rgba(0,0,0,0.3);
             border-radius: 15px;
+            border: 3px solid #00ff88;
         }
         header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 8px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        header .subtitle {
-            font-size: 1.1rem;
-            opacity: 0.95;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
             color: #00ff88;
-            font-weight: 600;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
         }
-        header .tagline {
-            font-size: 0.95rem;
-            opacity: 0.85;
-            margin-top: 5px;
-        }
+        header .subtitle { font-size: 1.3rem; color: white; font-weight: bold; }
+        header .tagline { font-size: 1rem; color: #ffd700; margin-top: 10px; font-weight: 600; }
 
         .network-tabs {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 15px;
             margin-bottom: 30px;
             flex-wrap: wrap;
         }
         .tab-btn {
-            padding: 12px 30px;            border: none;
-            border-radius: 25px;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .tab-btn:hover, .tab-btn.active {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 30px;
             background: white;
             color: #1e3c72;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;            transition: all 0.3s;
+        }
+        .tab-btn:hover, .tab-btn.active {
+            background: #00ff88;
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
         }
 
         .packages-grid {
@@ -75,60 +67,90 @@
             padding: 25px;
             text-align: center;
             color: white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            transition: transform 0.3s;
-            border: 2px solid transparent;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            border: 2px solid #00d4ff;
         }
         .package-card:hover {
             transform: translateY(-5px);
-            border-color: #00d4ff;
+            border-color: #00ff88;
+            box-shadow: 0 15px 40px rgba(0,255,136,0.3);
         }
         .package-card .wifi-icon { font-size: 3rem; margin-bottom: 15px; }
-        .package-card .data-size { font-size: 2rem; font-weight: bold; margin-bottom: 5px; }
-        .package-card .network { color: #00d4ff; font-size: 0.9rem; margin-bottom: 15px; }
-        .package-card .price { font-size: 1.8rem; font-weight: bold; color: #00ff88; margin-bottom: 15px; }
+        .package-card .data-size { font-size: 2.2rem; font-weight: bold; margin-bottom: 8px; color: #00d4ff; }
+        .package-card .network { color: #aaa; font-size: 1rem; margin-bottom: 15px; text-transform: uppercase; }
+        .package-card .price { font-size: 2rem; font-weight: bold; color: #00ff88; margin-bottom: 20px; }
         .package-card .buy-btn {
             width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #00d4ff 0%, #00ff88 100%);
+            color: #1a1a2e;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .package-card .buy-btn:hover { transform: scale(1.05); }
+
+        /* Order Modal */
+        .modal {
+            display: none;
+            position: fixed;            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+        }
+        .modal-content h2 { color: #1e3c72; margin-bottom: 15px; }
+        .modal-content p { color: #555; margin-bottom: 15px; line-height: 1.5; }
+        .modal-content input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .momo-box {
+            background: #f0f9ff;
+            border: 2px dashed #00d4ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .modal-buttons button {
+            flex: 1;
             padding: 12px;
             border: none;
             border-radius: 8px;
-            background: #00d4ff;
-            color: #1a1a2e;
-            font-size: 1rem;
             font-weight: bold;
-            cursor: pointer;            transition: all 0.3s;
+            cursor: pointer;
+            font-size: 1rem;
         }
-        .package-card .buy-btn:hover {
-            background: #00ff88;
-            transform: scale(1.05);
-        }
-
-        .features {
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 30px;
-            color: white;
-            text-align: center;
-        }
-        .features h2 { margin-bottom: 20px; }
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-        .feature { padding: 15px; }
-        .feature-icon { font-size: 2.5rem; margin-bottom: 10px; }
-
+        .whatsapp-btn { background: #25D366; color: white; }
+        .close-btn { background: #dc3545; color: white; }
         footer {
             text-align: center;
             color: white;
             margin-top: 40px;
             padding: 20px;
-        }
-
-        @media (max-width: 768px) {
-            header h1 { font-size: 1.6rem; }
-            .packages-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
         }
     </style>
 </head>
@@ -136,7 +158,7 @@
     <div class="container">
         <header>
             <h1>⚡ DataHubJust GH</h1>
-            <div class="subtitle">🇬🇭 Cheapest Data Bundles in Ghana</div>
+            <div class="subtitle">🇬 Cheapest Data Bundles in Ghana</div>
             <div class="tagline">🚨 Instant Delivery Now 🚨 ❤️‍🔥</div>
         </header>
 
@@ -145,42 +167,41 @@
             <button class="tab-btn" onclick="showNetwork('airteltigo')">AirtelTigo</button>
             <button class="tab-btn" onclick="showNetwork('telecel')">Telecel</button>
         </div>
+
         <div id="packages" class="packages-grid"></div>
 
-        <div class="features">
-            <h2>Why Choose DataHubJust GH?</h2>
-            <div class="features-grid">
-                <div class="feature">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Fastest Delivery</h3>
-                    <p>Get your data bundle in seconds after payment</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">💰</div>
-                    <h3>Best Prices</h3>
-                    <p>Cheapest rates guaranteed in Ghana</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">🔒</div>
-                    <h3>Secure & Trusted</h3>
-                    <p>Safe Mobile Money payment, 100% reliable</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">📱</div>
-                    <h3>24/7 Support</h3>
-                    <p>Always ready to help you anytime</p>
-                </div>
-            </div>
-        </div>
-
         <footer>
-            <p>© 2026 DataHubJust GH. All rights reserved.</p>
-            <p>🚨 Instant Delivery • MTN • AirtelTigo • Telecel 🚨</p>
+            <p>© 2026 DataHubJust GH - All rights reserved.</p>
+            <p> Pay via MTN MoMo / Vodafone Cash / AirtelTigo Money</p>
         </footer>
     </div>
 
+    <!-- Order Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <h2>Complete Your Order</h2>
+            <p id="orderInfo"></p>
+            
+            <div class="momo-box">
+                📲 Send payment to:<br>
+                <strong id="momoNumber">055 544 9393</strong><br>
+                Name: <strong>DataHubJust GH</strong>
+            </div>
+
+            <input type="tel" id="customerPhone" placeholder="Your Phone Number (for data delivery)" required>
+            <input type="text" id="transactionId" placeholder="MoMo Transaction ID (after payment)" required>
+            
+            <div class="modal-buttons">
+                <button class="whatsapp-btn" onclick="sendOrder()">✅ I've Paid - Send Details</button>
+            </div>
+            <button class="close-btn" onclick="closeModal()" style="margin-top:10px; width:100%;">Cancel</button>        </div>
+    </div>
+
     <script>
-        // Data bundles data (Update prices as needed)
+        // ⚠️ YOUR SETTINGS ⚠️
+        const WHATSAPP_NUMBER = '233555449393'; // Formatted for WhatsApp
+        const MOMO_NUMBER_DISPLAY = '0555449393'; // Displayed to customer
+        
         const bundles = {
             mtn: [
                 { size: '1GB', price: 4.10 }, { size: '2GB', price: 8.50 },
@@ -194,7 +215,8 @@
             ],
             airteltigo: [
                 { size: '1GB', price: 4.00 }, { size: '2GB', price: 8.00 },
-                { size: '5GB', price: 19.00 }, { size: '10GB', price: 38.00 },                { size: '15GB', price: 55.00 }, { size: '20GB', price: 72.00 }
+                { size: '5GB', price: 19.00 }, { size: '10GB', price: 38.00 },
+                { size: '15GB', price: 55.00 }, { size: '20GB', price: 72.00 }
             ],
             telecel: [
                 { size: '1GB', price: 4.20 }, { size: '2GB', price: 8.30 },
@@ -204,6 +226,7 @@
         };
 
         let currentNetwork = 'mtn';
+        let selectedBundle = null;
 
         function showNetwork(network) {
             currentNetwork = network;
@@ -220,23 +243,47 @@
                     <div class="wifi-icon">📶</div>
                     <div class="data-size">${bundle.size}</div>
                     <div class="network">${currentNetwork.toUpperCase()}</div>
-                    <div class="price">GH₵ ${bundle.price.toFixed(2)}</div>
-                    <button class="buy-btn" onclick="buyBundle('${bundle.size}', ${bundle.price})">Buy Now</button>
+                    <div class="price">GH₵ ${bundle.price.toFixed(2)}</div>                    <button class="buy-btn" onclick="openOrder('${bundle.size}', ${bundle.price})">Buy Now</button>
                 </div>
             `).join('');
         }
 
-        function buyBundle(size, price) {
-            // Replace 233XXXXXXXXX with your actual WhatsApp number
-            const message = `Hi DataHubJust GH! I want to buy ${size} ${currentNetwork.toUpperCase()} data bundle for GH₵${price.toFixed(2)}. Please send it to me.`;
-            const whatsappURL = `https://wa.me/233XXXXXXXXX?text=${encodeURIComponent(message)}`;
+        function openOrder(size, price) {
+            selectedBundle = { size, price, network: currentNetwork };
+            document.getElementById('orderInfo').innerHTML = 
+                `📦 <strong>${size} ${currentNetwork.toUpperCase()}</strong><br>💰 Price: GH₵ ${price.toFixed(2)}`;
+            document.getElementById('momoNumber').textContent = MOMO_NUMBER_DISPLAY;
+            document.getElementById('orderModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('orderModal').style.display = 'none';
+        }
+
+        function sendOrder() {
+            const phone = document.getElementById('customerPhone').value.trim();
+            const transId = document.getElementById('transactionId').value.trim();
             
-            if (confirm(`You selected:\n📦 ${size} ${currentNetwork.toUpperCase()}\n💰 GH₵ ${price.toFixed(2)}\n\nContinue to WhatsApp to pay via Mobile Money?`)) {
-                window.open(whatsappURL, '_blank');
+            if (!phone || !transId) {
+                alert('Please enter your phone number and MoMo transaction ID');
+                return;
             }
+
+            const message = `📦 *NEW ORDER - DataHubJust GH*%0A%0A` +
+                           `📱 Customer Number: ${phone}%0A` +
+                           `📦 Package: ${selectedBundle.size} ${selectedBundle.network.toUpperCase()}%0A` +
+                           `💰 Amount: GH₵ ${selectedBundle.price.toFixed(2)}%0A` +
+                           `🔖 MoMo Ref: ${transId}%0A%0A` +
+                           `✅ Payment sent. Please deliver data to ${phone}.`;
+            
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
+            closeModal();
         }
 
         window.onload = function() { loadPackages(); };
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('orderModal')) closeModal();
+        }
     </script>
 </body>
 </html>
