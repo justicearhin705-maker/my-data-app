@@ -1,192 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Data Dashboard</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #f8fafc; color: #1e293b; padding: 20px; line-height: 1.5;
-    }
-    .container { max-width: 1000px; margin: 0 auto; }
-    header {
-      background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-    h1 { font-size: 1.5rem; margin-bottom: 12px; color: #0f172a; }
-    #search {
-      width: 100%; padding: 12px 16px; border: 2px solid #cbd5e1;
-      border-radius: 8px; font-size: 1rem; transition: all 0.2s;
-    }
-    #search:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
-    #loader { text-align: center; padding: 40px; color: #64748b; font-size: 1.1rem; }
-    #error { 
-      color: #dc2626; background: #fef2f2; padding: 12px 16px; 
-      border-radius: 8px; margin: 16px 0; display: none; border-left: 4px solid #dc2626;
-    }
-    table {
-      width: 100%; border-collapse: collapse; background: white;
-      border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-    th, td { padding: 14px 16px; text-align: left; border-bottom: 1px solid #e2e8f0; }
-    th {
-      background: #f1f5f9; font-weight: 600; cursor: pointer; user-select: none;
-      position: sticky; top: 0; transition: background 0.2s;
-    }
-    th:hover { background: #e2e8f0; }
-    tr:hover { background: #f8fafc; }
-    .price { font-weight: 700; color: #059669; }
-    .empty { text-align: center; padding: 40px; color: #64748b; font-style: italic; }
-    footer {
-      text-align: center; margin-top: 30px; color: #64748b; font-size: 0.9rem;
-    }
-    footer a { color: #3b82f6; text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
-    @media (max-width: 640px) {
-      th, td { padding: 10px 12px; font-size: 0.95rem; }
-      table { font-size: 0.9rem; }
-      h1 { font-size: 1.3rem; }    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataHubJust GH - Cheapest Data Bundles in Ghana</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 15px;
+        }
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            color: #00ff88;
+            font-weight: 600;
+        }
+        header .tagline {
+            font-size: 0.95rem;
+            opacity: 0.85;
+            margin-top: 5px;
+        }
+
+        .network-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            padding: 12px 30px;            border: none;
+            border-radius: 25px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .tab-btn:hover, .tab-btn.active {
+            background: white;
+            color: #1e3c72;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .package-card {
+            background: #1a1a2e;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+            border: 2px solid transparent;
+        }
+        .package-card:hover {
+            transform: translateY(-5px);
+            border-color: #00d4ff;
+        }
+        .package-card .wifi-icon { font-size: 3rem; margin-bottom: 15px; }
+        .package-card .data-size { font-size: 2rem; font-weight: bold; margin-bottom: 5px; }
+        .package-card .network { color: #00d4ff; font-size: 0.9rem; margin-bottom: 15px; }
+        .package-card .price { font-size: 1.8rem; font-weight: bold; color: #00ff88; margin-bottom: 15px; }
+        .package-card .buy-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #00d4ff;
+            color: #1a1a2e;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;            transition: all 0.3s;
+        }
+        .package-card .buy-btn:hover {
+            background: #00ff88;
+            transform: scale(1.05);
+        }
+
+        .features {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 30px;
+            color: white;
+            text-align: center;
+        }
+        .features h2 { margin-bottom: 20px; }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .feature { padding: 15px; }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 10px; }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            padding: 20px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.6rem; }
+            .packages-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>📊 My Data Dashboard</h1>
-      <input type="text" id="search" placeholder="🔍 Search name, category, or price..." autocomplete="off" />
-      <div id="error"></div>
-    </header>
+    <div class="container">
+        <header>
+            <h1>⚡ DataHubJust GH</h1>
+            <div class="subtitle">🇬🇭 Cheapest Data Bundles in Ghana</div>
+            <div class="tagline">🚨 Instant Delivery Now 🚨 ❤️‍🔥</div>
+        </header>
 
-    <div id="loader">✨ Loading your data...</div>
-    
-    <table id="data-table" style="display:none">
-      <thead>
-        <tr>
-          <th data-key="id">ID</th>
-          <th data-key="name">Name</th>
-          <th data-key="category">Category</th>
-          <th data-key="price">Price</th>
-        </tr>
-      </thead>
-      <tbody id="table-body"></tbody>
-    </table>
+        <div class="network-tabs">
+            <button class="tab-btn active" onclick="showNetwork('mtn')">MTN</button>
+            <button class="tab-btn" onclick="showNetwork('airteltigo')">AirtelTigo</button>
+            <button class="tab-btn" onclick="showNetwork('telecel')">Telecel</button>
+        </div>
+        <div id="packages" class="packages-grid"></div>
 
-    <footer>
-      Built with ❤️ • Data: <a href="https://raw.githubusercontent.com/justicearhin705-maker/my-data-app/main/data.json" target="_blank">GitHub Raw</a>
-    </footer>
-  </div>
+        <div class="features">
+            <h2>Why Choose DataHubJust GH?</h2>
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Fastest Delivery</h3>
+                    <p>Get your data bundle in seconds after payment</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">💰</div>
+                    <h3>Best Prices</h3>
+                    <p>Cheapest rates guaranteed in Ghana</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Secure & Trusted</h3>
+                    <p>Safe Mobile Money payment, 100% reliable</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📱</div>
+                    <h3>24/7 Support</h3>
+                    <p>Always ready to help you anytime</p>
+                </div>
+            </div>
+        </div>
 
-  <script>
-    // 🔗 YOUR EXACT DATA LINK (clean version)
-    const DATA_URL = "https://raw.githubusercontent.com/justicearhin705-maker/my-data-app/refs/heads/main/data.json";
-    
-    let rawData = [];
-    let displayedData = [];
-    let sortKey = null;
-    let sortAsc = true;
+        <footer>
+            <p>© 2026 DataHubJust GH. All rights reserved.</p>
+            <p>🚨 Instant Delivery • MTN • AirtelTigo • Telecel 🚨</p>
+        </footer>
+    </div>
 
-    async function loadData() {
-      const loader = document.getElementById('loader');
-      const error = document.getElementById('error');
-      const table = document.getElementById('data-table');
-      
-      try {
-        const res = await fetch(DATA_URL);
-        if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-        
-        const data = await res.json();
-        if (!Array.isArray(data)) throw new Error("Data must be an array");        if (data.length === 0) throw new Error("Data array is empty");
-        
-        rawData = data;
-        displayedData = [...data];
-        loader.style.display = 'none';
-        table.style.display = 'table';
-        renderTable();
-        updateSortIndicators();
-        
-      } catch (err) {
-        console.error('Load error:', err);
-        loader.style.display = 'none';
-        error.textContent = `⚠️ ${err.message}. Check browser console for details.`;
-        error.style.display = 'block';
-      }
-    }
+    <script>
+        // Data bundles data (Update prices as needed)
+        const bundles = {
+            mtn: [
+                { size: '1GB', price: 4.10 }, { size: '2GB', price: 8.50 },
+                { size: '3GB', price: 12.50 }, { size: '4GB', price: 17.49 },
+                { size: '5GB', price: 20.50 }, { size: '6GB', price: 25.00 },
+                { size: '8GB', price: 32.99 }, { size: '10GB', price: 41.00 },
+                { size: '15GB', price: 59.00 }, { size: '20GB', price: 78.00 },
+                { size: '25GB', price: 98.00 }, { size: '30GB', price: 120.00 },
+                { size: '40GB', price: 155.00 }, { size: '50GB', price: 190.00 },
+                { size: '100GB', price: 380.00 }
+            ],
+            airteltigo: [
+                { size: '1GB', price: 4.00 }, { size: '2GB', price: 8.00 },
+                { size: '5GB', price: 19.00 }, { size: '10GB', price: 38.00 },                { size: '15GB', price: 55.00 }, { size: '20GB', price: 72.00 }
+            ],
+            telecel: [
+                { size: '1GB', price: 4.20 }, { size: '2GB', price: 8.30 },
+                { size: '5GB', price: 20.00 }, { size: '10GB', price: 39.00 },
+                { size: '15GB', price: 57.00 }, { size: '20GB', price: 75.00 }
+            ]
+        };
 
-    function renderTable() {
-      const tbody = document.getElementById('table-body');
-      if (displayedData.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" class="empty">No matching results found</td></tr>';
-        return;
-      }
-      
-      tbody.innerHTML = displayedData.map(row => `
-        <tr>
-          <td><strong>${row.id ?? ''}</strong></td>
-          <td>${row.name ?? ''}</td>
-          <td><span style="background:#e0f2fe;color:#0369a1;padding:4px 10px;border-radius:20px;font-size:0.9em">${row.category ?? ''}</span></td>
-          <td class="price">$${(row.price ?? 0).toFixed(2)}</td>
-        </tr>
-      `).join('');
-    }
+        let currentNetwork = 'mtn';
 
-    function filterData(term) {
-      const lower = term.toLowerCase().trim();
-      if (!lower) {
-        displayedData = [...rawData];
-      } else {
-        displayedData = rawData.filter(row =>
-          Object.values(row).some(val => 
-            String(val ?? '').toLowerCase().includes(lower)
-          )
-        );
-      }
-      if (sortKey) sortData(sortKey, false);
-      else renderTable();
-    }
-
-    function sortData(key, toggle = true) {      if (toggle) {
-        if (sortKey === key) sortAsc = !sortAsc;
-        else { sortKey = key; sortAsc = true; }
-      }
-      
-      displayedData.sort((a, b) => {
-        let valA = a[key], valB = b[key];
-        if (typeof valA === 'number' && typeof valB === 'number') {
-          return sortAsc ? valA - valB : valB - valA;
+        function showNetwork(network) {
+            currentNetwork = network;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            loadPackages();
         }
-        valA = String(valA ?? '').toLowerCase();
-        valB = String(valB ?? '').toLowerCase();
-        if (valA < valB) return sortAsc ? -1 : 1;
-        if (valA > valB) return sortAsc ? 1 : -1;
-        return 0;
-      });
-      renderTable();
-      updateSortIndicators();
-    }
 
-    function updateSortIndicators() {
-      document.querySelectorAll('th[data-key]').forEach(th => {
-        const key = th.dataset.key;
-        let text = th.textContent.replace(/[↕↑↓]/g, '').trim();
-        if (key === sortKey) {
-          th.textContent = text + (sortAsc ? ' ↑' : ' ↓');
-        } else {
-          th.textContent = text + ' ↕';
+        function loadPackages() {
+            const container = document.getElementById('packages');
+            const networkBundles = bundles[currentNetwork];
+            container.innerHTML = networkBundles.map(bundle => `
+                <div class="package-card">
+                    <div class="wifi-icon">📶</div>
+                    <div class="data-size">${bundle.size}</div>
+                    <div class="network">${currentNetwork.toUpperCase()}</div>
+                    <div class="price">GH₵ ${bundle.price.toFixed(2)}</div>
+                    <button class="buy-btn" onclick="buyBundle('${bundle.size}', ${bundle.price})">Buy Now</button>
+                </div>
+            `).join('');
         }
-      });
-    }
 
-    // Event Listeners
-    document.getElementById('search').addEventListener('input', 
-      e => filterData(e.target.value));
-    
-    document.querySelectorAll('th[data-key]').forEach(th => {
-      th.addEventListener('click', () => sortData(th.dataset.key));
-    });
+        function buyBundle(size, price) {
+            // Replace 233XXXXXXXXX with your actual WhatsApp number
+            const message = `Hi DataHubJust GH! I want to buy ${size} ${currentNetwork.toUpperCase()} data bundle for GH₵${price.toFixed(2)}. Please send it to me.`;
+            const whatsappURL = `https://wa.me/233XXXXXXXXX?text=${encodeURIComponent(message)}`;
+            
+            if (confirm(`You selected:\n📦 ${size} ${currentNetwork.toUpperCase()}\n💰 GH₵ ${price.toFixed(2)}\n\nContinue to WhatsApp to pay via Mobile Money?`)) {
+                window.open(whatsappURL, '_blank');
+            }
+        }
 
-    // Initialize
-    document.addEventListener('DOMContentLoaded', loadData);
-  </script>
+        window.onload = function() { loadPackages(); };
+    </script>
 </body>
 </html>
